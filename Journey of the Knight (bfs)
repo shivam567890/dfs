@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// one of the best question to revise bfs traversal !!
+vector<pair<int ,int>>movements={{1,2},{-1,2},{2,1},{2,-1},{-1,-2},{1,-2},{-2,1},{-2,-1}};
+
+bool isValid(int a,int b){
+    if(a>=0 && b>=0 && a<=7 && b<=7 ){return 1;}
+    else{return 0;}
+}
+	int level[8][8];
+	int visited[8][8];
+	queue<pair<int,int>>q;
+int main() {
+	int t;
+	cin>>t;
+	while(t--){
+	    int x1,y1,x2,y2;
+	    cin>>x1>>y1>>x2>>y2;
+	    x1-=1; x2-=1; y1-=1; y2-=1;
+	    q.push({x1,y1});
+	    visited[x1][y1]=1;
+	   
+	    while(!q.empty()){
+	        int index_x=q.front().first;
+	        int index_y=q.front().second;
+	         q.pop();
+	        for(auto movement:movements){
+	            int child_x=movement.first+index_x;
+	            int child_y=movement.second+index_y;
+	         if(!isValid(child_x,child_y)){continue;}
+	         
+	         if(visited[child_x][child_y]!=1){
+	             visited[child_x][child_y]=1;
+	             q.push({child_x,child_y});
+	             level[child_x][child_y]=level[index_x][index_y]+1;
+	         }
+	         
+	        }
+	        if(visited[x2][y2]!=0){
+	               if((level[x2][y2])%2==0){cout<<"yes"<<endl;}
+	               else{cout<<"no"<<endl;}
+	               break; }
+	    }
+	  for(int i=0;i<8;i++){
+	      for(int j=0;j<8;j++){
+	          visited[i][j]=0;
+	          level[i][j]=0;
+	      }
+	  }
+	    while(!q.empty()){q.pop();}
+	}
+	return 0;
+}
