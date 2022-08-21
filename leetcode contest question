@@ -1,0 +1,50 @@
+//code
+
+// learn how to convert a given binary tree into graph 
+
+class Solution {
+public:
+    vector <int>e[1000000];
+    void dfs(TreeNode* root){
+        if(root==NULL){
+            return;
+        }
+        if(root->left){
+            dfs(root->left);
+            e[root->val].push_back(root->left->val);
+            e[root->left->val].push_back(root->val);
+        }
+        if(root->right){
+            dfs(root->right);
+            e[root->val].push_back(root->right->val);
+            e[root->right->val].push_back(root->val);
+        }
+        
+    }
+    
+    int amountOfTime(TreeNode* root, int start) {
+        dfs(root);
+        
+        int visited[1000005]={0};
+        queue<int>q;
+        int level[1000005]={0};
+        q.push(start);
+        visited[start]=1;
+        int ans=0;
+        while(!q.empty()){
+            int curr=q.front();
+            q.pop();
+            for(auto it:e[curr]){
+                if(!visited[it]){
+                    visited[it]=1;
+                    level[it]=level[curr]+1;
+                    ans=max(ans,level[it]);
+                    q.push(it);
+                }
+            }
+        }
+        
+        return ans;
+        
+    }
+};
