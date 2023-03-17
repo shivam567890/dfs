@@ -1,0 +1,74 @@
+
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/submissions/
+https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/submissions/
+//  WE will find the minimum value of an array if array is rotated !! 
+
+
+// If element is repeated then 
+
+    int findMin(vector<int>& nums) {
+     
+        int mini=nums[0];
+        int i=0,j=nums.size()-1;
+                  if(nums[0]==nums[nums.size()-1]){
+                 mini=nums[0];
+              int k=nums[0];
+              while(i+1<nums.size() && nums[i+1]==k){
+                  i++;
+              }
+          
+              while(  j>=0 && nums[j]==k){
+                  j--;
+              }
+          }
+          int pivot=-1;
+        int start=i,end=j;
+        while(i<=j){
+            
+            int mid = i + (j-i)/2;
+          
+            if(nums[mid]>=nums[0]){
+                i=mid+1;
+            }else{
+                pivot=mid;
+                j=mid-1;
+            }
+          
+        }
+        if(pivot==-1){
+            return mini;
+        }
+        
+        return min(mini,nums[pivot]);
+        
+    }
+    
+    
+    
+    
+    
+    
+    // If all the elements are unique and array is rotated k times then 
+    
+    
+      int findMin(vector<int>& nums) {
+        
+        int i=0,j=nums.size()-1;
+       int pivot=-1;
+        while(i<=j){
+            
+            
+            int mid= (i+j)/2;
+            
+         
+            if(nums[mid]>=nums[0]){
+                i=mid+1;
+            }else{
+                pivot=mid;
+                j=mid-1;
+            }
+        
+        }
+        if(pivot!=-1){return nums[pivot];}
+        return nums[0];
+    }
