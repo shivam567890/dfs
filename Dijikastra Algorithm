@@ -1,0 +1,51 @@
+// Simple dijikastra
+https://leetcode.com/contest/biweekly-contest-102/problems/design-graph-with-shortest-path-calculator/
+
+
+class Graph {
+public:
+    vector<pair<int,int>>g[101];
+    Graph(int n, vector<vector<int>>& edges) {
+        
+        for(auto it:edges){
+            g[it[0]].push_back({it[1],it[2]});
+        }
+        
+        
+    }
+    
+    void addEdge(vector<int> edge) {
+        g[edge[0]].push_back({edge[1],edge[2]});
+    }
+    
+    int shortestPath(int node1, int node2) {
+        vector<int>dis(101,INT_MAX);
+        priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>>pq;
+       
+        pq.push({0,node1});
+        dis[node1]=0;
+        
+        while(!pq.empty()){
+            
+            auto it=pq.top();pq.pop();
+               int wt= it.first;
+               int  par= it.second; 
+            for(auto t:g[par]){
+                
+                int child= t.first;
+                int u= t.second;
+                if(dis[child]>u+wt){
+                    dis[child]=u+wt;
+                    pq.push({dis[child],child});
+                }
+                
+            }
+              
+        }
+        
+         if(dis[node2]!=INT_MAX){return dis[node2];} 
+        return -1;
+        
+    }
+};
+
