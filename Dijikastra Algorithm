@@ -49,3 +49,62 @@ public:
     }
 };
 
+
+
+
+
+
+
+
+
+
+
+Good question: https://leetcode.com/problems/path-with-minimum-effort/
+
+
+
+
+typedef pair<int, int> pi;
+class Solution {
+public:
+      bool isValid(int i,int j,int m,int n)
+    {
+        if(i>=0 && i<m && j>=0 && j<n){
+            return 1;}
+        return 0;
+    }
+     vector<pair<int ,int>>movements={{1,0},{0,-1},{-1,0},{0,1}};
+    
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int INF=1e9;
+        vector<vector<int>>vis(heights.size(),vector<int>(heights[0].size(),INF));
+       priority_queue<pair<int,pi>, vector<pair<int,pi>>, greater<pair<int,pi>>>pq;
+        pq.push({0,{0,0}});
+        vis[0][0]=0; 
+        int ans=INT_MIN;
+        while(!pq.empty()){
+
+            int dis=pq.top().first;
+            int x=pq.top().second.first;
+            int y=pq.top().second.second;
+            pq.pop();
+            ans=max(ans,dis);
+            if(x==heights.size()-1 && y==heights[0].size()-1){
+                return ans;
+            }
+            
+            for(auto it:movements){
+                int u=it.first+x;
+                int v=it.second+y;
+  if(isValid(u,v,heights.size(),heights[0].size())  && vis[u][v]>abs(heights[u][v]-heights[x][y])){
+                  vis[u][v]=  abs(heights[u][v]-heights[x][y]);
+                     pq.push({vis[u][v],{u,v}});
+                }   
+            }
+        }
+        
+        return -1;
+        
+    }
+};
+
